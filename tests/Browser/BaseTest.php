@@ -57,7 +57,10 @@ class BaseTest extends DuskTestCase
     {
         $random_input = uniqid();
         $deletable_value = Value::create(['name' => $random_input]);
-        $delete_url = route('values.delete', ['value_id' => $deletable_value]);
+
+        self::assertNotEmpty($deletable_value);
+
+        $delete_url = route('values.delete', ['value_id' => $deletable_value['id']]);
         $this->browse(function (Browser $browser) use ($random_input, $delete_url) {
             $browser->loginAs(1)
                 ->visit('/list')
@@ -72,6 +75,27 @@ class BaseTest extends DuskTestCase
         });
 
         $value = Value::where('name', $random_input)->first();
+
+        self::assertEmpty($value);
+    }
+
+    public function testEditValue()
+    {
+        $original_input = uniqid();
+        $new_input = uniqid();
+        $edit_value = Value::create(['name' => $original_input]);
+
+        self::assertNotEmpty($edit_value);
+
+        $edit_url = route('values.update', ['value_id' => $edit_value['id']]);
+        $this->browse(function (Browser $browser) use ($edit_url, $new_input) {
+            $browser->loginAs(1)
+                ->visit('/list')
+                ->type('.edit_value[action="' . $edit_url . '"] [name="value"]', $new_input)
+                ->click('.edit_value[action="' . $edit_url . '"] [type="submit"]');
+        });
+
+        $value = Value::where('name', $new_input)->where('id', $edit_value['id'])->first();
 
         self::assertEmpty($value);
     }
