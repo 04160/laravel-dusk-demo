@@ -41,7 +41,7 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <form id="delete_value" method="POST" action="{{ route('values.delete', ['id' => $value['id']]) }}">
+                                    <form class="delete_value" method="POST" action="{{ route('values.delete', ['id' => $value['id']]) }}">
                                         {{ csrf_field() }}
                                         <button type="submit">Delete</button>
                                     </form>
