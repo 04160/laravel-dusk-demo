@@ -99,4 +99,25 @@ class BaseTest extends DuskTestCase
 
         self::assertEmpty($value);
     }
+
+    public function testFilterValue()
+    {
+        $original_input = uniqid();
+        $filter_value = Value::create(['name' => $original_input]);
+
+        self::assertNotEmpty($filter_value);
+        $filter_value_route = route('values.update', ['value_id' => $filter_value['id']]);
+        $this->browse(function (Browser $browser) use ($filter_value_route, $filter_value) {
+            $browser->loginAs(1)
+                ->visit('/list')
+                ->type('#filter_value [name="value"]', $filter_value['name'])
+                ->click('#filter_value [type="submit"]');
+
+            try {
+                $element = $browser->element('.edit_value:not([action="' . $filter_value_route . '"])');
+                self::assertEmpty($element);
+            } catch (NoSuchElementException $e) {
+            }
+        });
+    }
 }
