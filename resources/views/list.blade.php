@@ -18,7 +18,7 @@
             <div class="col-sm-6">
                 <h3>Value list</h3>
                 <div>
-                    <form method="GET">
+                    <form id="filter_value" method="GET">
                         <input name="value" value='{{ \Input::get('value') }}'>
                         <button style="background-color:greenyellow" type="submit">Filter</button>
                     </form>
@@ -34,14 +34,14 @@
                         @foreach($values as $value)
                             <tr>
                                 <td>
-                                    <form method="POST" action="{{ route('values.update', ['value_id' => $value['id']]) }}">
+                                    <form class="edit_value" method="POST" action="{{ route('values.update', ['value_id' => $value['id']]) }}">
                                         {{ csrf_field() }}
                                         <input name="value" value='{{ $value['name'] }}'/>
                                         <button type="submit">Edit</button>
                                     </form>
                                 </td>
                                 <td>
-                                    <form method="POST" action="{{ route('values.delete', ['id' => $value['id']]) }}">
+                                    <form id="delete_value" method="POST" action="{{ route('values.delete', ['id' => $value['id']]) }}">
                                         {{ csrf_field() }}
                                         <button type="submit">Delete</button>
                                     </form>
@@ -52,7 +52,7 @@
                     <tfoot>
                         <tr>
                             <td>
-                                <form method="POST" action="{{ route('values.create') }}">
+                                <form id="create_value" method="POST" action="{{ route('values.create') }}">
                                     {{ csrf_field() }}
                                     <input name="value" placeholder="New value">
                                     <button type="submit">Submit</button>

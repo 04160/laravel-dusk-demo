@@ -38,4 +38,16 @@ class BaseTest extends DuskTestCase
                 ->assertSee('Value list');
         });
     }
+
+    public function testCreateNewValue()
+    {
+        $random_input = uniqid();
+        $this->browse(function (Browser $browser) use ($random_input) {
+            $browser->loginAs(1)
+                ->visit('/list')
+                ->type('#create_value [name="value"]', $random_input)
+                ->click('#create_value [type="submit"]')
+                ->assertInputValue('.edit_value input[value="' . $random_input . '"]', $random_input);
+        });
+    }
 }
