@@ -5,7 +5,7 @@ namespace Tests\Browser;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
-class HomeTest extends DuskTestCase
+class BaseTest extends DuskTestCase
 {
     /**
      * See links in home page
@@ -27,6 +27,15 @@ class HomeTest extends DuskTestCase
                 ->type('password', 'useruser')
                 ->click('[type="submit"]')
                 ->assertSee('You are logged in!');
+        });
+    }
+
+    public function testOpenValueList()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(1)
+                ->visit('/list')
+                ->assertSee('Value list');
         });
     }
 }

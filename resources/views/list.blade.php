@@ -16,6 +16,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
+                <h3>Value list</h3>
                 <div>
                     <form method="GET">
                         <input name="value" value='{{ \Input::get('value') }}'>
